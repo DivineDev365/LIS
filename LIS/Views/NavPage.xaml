@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="LIS.Views.NavPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LIS.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<muxc:NavigationView x:Name="NavView"
+                        Loaded="NavView_Loaded"
+                        SelectionChanged="NavView_SelectionChanged"
+                        BackRequested="NavView_BackRequested"
+						IsTitleBarAutoPaddingEnabled="False">
+			<muxc:NavigationView.PaneHeader>
+				<!--<muxc:NavigationViewItemHeader Content="Library Menu" />-->
+				<TextBlock Text="Library Menu" Style="{StaticResource TitleTextBlockStyle}"/>
+			</muxc:NavigationView.PaneHeader>
+			<muxc:NavigationView.PaneFooter>
+				<muxc:NavigationViewItem Icon="Contact" Tapped="PaneFooterClicked" Content="Logout"/>
+			</muxc:NavigationView.PaneFooter>
+			<muxc:NavigationView.MenuItems>
+				<muxc:NavigationViewItem Icon="Home" Tag="Dashboard" Content="Dashboard"/>
+				<muxc:NavigationViewItemSeparator/>
+				<muxc:NavigationViewItemHeader Content="Search"/>
+				<muxc:NavigationViewItem Icon="Find" Tag="Search" Content="Search">
+				</muxc:NavigationViewItem>
+				<muxc:NavigationViewItemSeparator/>
+				<muxc:NavigationViewItemHeader Content="Find Books"/>
+				<muxc:NavigationViewItem Icon="AllApps" Tag="BookList" Content="Books By Topic">
+				</muxc:NavigationViewItem>
+				<!--<muxc:NavigationViewItem Icon="Admin" Tag="Admin" Content="Admin"/>-->
+			</muxc:NavigationView.MenuItems>
+
+			<muxc:NavigationView.AutoSuggestBox>
+				<!-- See AutoSuggestBox documentation for
+                more info about how to implement search. -->
+				<AutoSuggestBox x:Name="NavViewSearchBox" QueryIcon="Find"/>
+			</muxc:NavigationView.AutoSuggestBox>
+
+			<ScrollViewer>
+				<Frame x:Name="ContentFrame" Padding="12,0,12,24" IsTabStop="True"
+                NavigationFailed="ContentFrame_NavigationFailed"/>
+			</ScrollViewer>
+		</muxc:NavigationView>
+
+	</Grid>
+</Page>

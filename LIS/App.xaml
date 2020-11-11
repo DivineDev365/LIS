@@ -1,0 +1,55 @@
+﻿<Application
+    x:Class="LIS.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LIS"
+	xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:muxm="using:Microsoft.UI.Xaml.Media">
+
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+				<ResourceDictionary>
+					<ResourceDictionary.ThemeDictionaries>
+						<ResourceDictionary x:Key="Default">
+							<muxm:AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
+                                   BackgroundSource="HostBackdrop"
+                                   TintColor="DarkCyan"
+                                   TintOpacity=".6"
+									FallbackColor="DimGray"/>
+							<muxm:AcrylicBrush x:Key="NavigationViewTopPaneBackground"
+                                   BackgroundSource="HostBackdrop"
+                                   TintColor="{ThemeResource SystemAccentColor}"
+                                   TintOpacity=".6"
+									FallbackColor="DimGray"/>
+							<muxm:AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
+                                   BackgroundSource="HostBackdrop"
+                                   TintColor="DarkCyan"
+                                   TintOpacity=".6"
+									FallbackColor="DimGray"/>
+						</ResourceDictionary>
+						<ResourceDictionary x:Key="HighContrast"></ResourceDictionary>
+
+					</ResourceDictionary.ThemeDictionaries>
+				</ResourceDictionary>
+				<ResourceDictionary>
+					<AcrylicBrush x:Key="CustomAcrylicDark"
+                      BackgroundSource="HostBackdrop"
+                      TintColor="Gray"
+                      TintOpacity="0.6"
+                      FallbackColor="Black"/>
+					<AcrylicBrush x:Key="CustomAcrylicLight"
+                      BackgroundSource="HostBackdrop"
+                      TintColor="PowderBlue"
+                      TintOpacity="0.6"
+                      FallbackColor="White"/>
+					<AcrylicBrush x:Key="CustomAcrylicDefault"
+						BackgroundSource="HostBackdrop"
+						TintColor="{ThemeResource SystemAccentColor}"
+						TintOpacity="0.6"
+						FallbackColor="DimGray"/>
+				</ResourceDictionary>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
+</Application>

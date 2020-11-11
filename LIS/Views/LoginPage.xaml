@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="LIS.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LIS.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Page.Resources>
+		<Style x:Name="BasicAlignmentStyle" TargetType="Control">
+			<Setter Property="MinHeight" Value="30"/>
+			<Setter Property="MinWidth" Value="300"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+		</Style>
+		<Style TargetType="TextBox" BasedOn="{StaticResource BasicAlignmentStyle}">
+			<Setter Property="Margin" Value="10,10"/>
+		</Style>
+		<Style TargetType="Button" BasedOn="{StaticResource BasicAlignmentStyle}">
+			<Setter Property="Margin" Value="20,20"/>
+			<Setter Property="Background" Value="{ThemeResource SystemAccentColorLight1}"/>
+		</Style>
+		<Style TargetType="PasswordBox" BasedOn="{StaticResource BasicAlignmentStyle}">
+		</Style>
+
+	</Page.Resources>
+
+	<Grid Background="{ThemeResource CustomAcrylicDefault}">
+		<TextBlock Text="Library Information System" 
+				   Style="{ThemeResource HeaderTextBlockStyle}"
+				   HorizontalAlignment="Center" Margin="0,50,0,0"
+				   Foreground="{ThemeResource SystemAccentColorLight3}"
+				   FontSize="72" FontWeight="SemiBold"/>
+		<StackPanel VerticalAlignment="Center">
+			<TextBlock Text="Login" HorizontalAlignment="Center"
+					   Style="{ThemeResource BaseTextBlockStyle}"
+					   Foreground="{ThemeResource SystemBaseHighColor}"
+					   FontSize="{StaticResource HubHeaderThemeFontSize}"/>
+			<TextBox x:Name="UserNameBox" PlaceholderText="User Name"/>
+			<PasswordBox x:Name="PwdBox" PlaceholderText="Password"/>
+			<Button x:Name="LoginButton" Content="Login"
+					Click="Login_Clicked" IsEnabled="True" />
+			<HyperlinkButton Content="Forgot Password?" 
+							 FontSize="{ThemeResource TextStyleLargeFontSize}"
+							 HorizontalAlignment="Center"
+							 Click="ForgotPwd_Clicked" 
+							 Foreground="{ThemeResource SystemAccentColorLight3}"/>
+		</StackPanel>
+		<StackPanel VerticalAlignment="Bottom">
+			<TextBlock Text="Not Registered yet?" HorizontalAlignment="Center"
+					   Style="{ThemeResource BaseTextBlockStyle}"
+					   Foreground="{ThemeResource SystemBaseHighColor}"/>
+			<Button Content="Sign Up" Click="SignUpClicked" 
+					Margin="0,10,0,50"/>
+		</StackPanel>
+	</Grid>
+</Page>
