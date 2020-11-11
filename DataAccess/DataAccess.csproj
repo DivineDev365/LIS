@@ -121,7 +121,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Librarian.cs" />
+    <Compile Include="Models\Members.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\DataAccess.rd.xml" />
   </ItemGroup>
