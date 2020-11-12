@@ -61,7 +61,7 @@ namespace LIS.Views
 			}
 			else
 			{
-				//TODO: verify user
+				//verify user. DON'T CALL IF DB IS EMPTY
 				ViewModel.VerifyUser(UserNameBox.Text, PwdBox.Password);
 				Frame.Navigate(typeof(Views.NavPage));
 			}

@@ -18,11 +18,11 @@ namespace DataAccess.Models
 		[Required]
 		public string Author { get; set; }
 		[Required]
-		public float price { get; set; }
+		public float Price { get; set; }
 
 		public string RackNo { get; set; }
 		[Required]
-		public string status { get; set; }
+		public string Status { get; set; }
 		public string Edition { get; set; }
 		[Required]
 		public string Category { get; set; }
