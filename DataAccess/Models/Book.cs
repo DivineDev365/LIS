@@ -12,7 +12,7 @@ namespace DataAccess.Models
 	{
 		[Key]
 		[Required]
-		public UniqueId BookId { get; set; }
+		public string BookId { get; set; }
 		[Required]
 		public string Name { get; set; }
 		[Required]

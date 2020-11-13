@@ -43,18 +43,21 @@ namespace LIS.Views
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            // You can also add items in code.
+            // Add UI items in code.
             //add this only if user is Admin
             //TODO: add code to check for Admin user
-            NavView.MenuItems.Add(new muxc.NavigationViewItemSeparator());
-            NavView.MenuItems.Add(new muxc.NavigationViewItemHeader() { Content = "Administrator" });
-            NavView.MenuItems.Add(new muxc.NavigationViewItem
-            {
-                Content = "Admin Tools",
-                Icon = new SymbolIcon((Symbol)0xE7EF),
-                Tag = "admin"
-            });
-            _pages.Add(("admin", typeof(AdminPage)));
+            //if (string.Equals(ViewModels.LoginPageViewModel.user, "Admin"))
+            //{
+                NavView.MenuItems.Add(new muxc.NavigationViewItemSeparator());
+                NavView.MenuItems.Add(new muxc.NavigationViewItemHeader() { Content = "Administrator" });
+                NavView.MenuItems.Add(new muxc.NavigationViewItem
+                {
+                    Content = "Admin Tools",
+                    Icon = new SymbolIcon((Symbol)0xE7EF),
+                    Tag = "admin"
+                });
+                _pages.Add(("admin", typeof(AdminPage)));
+            //}
 
             // Add handler for ContentFrame navigation.
             ContentFrame.Navigated += On_Navigated;

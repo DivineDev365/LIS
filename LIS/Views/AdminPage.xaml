@@ -8,7 +8,164 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+	<Page.Resources>
+		<Style x:Name="BasicAlignmentStyle" TargetType="Control">
+			<Setter Property="MinHeight" Value="30"/>
+			<Setter Property="MinWidth" Value="300"/>
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+			<Setter Property="Margin" Value="5,5"/>
+		</Style>
 
-    </Grid>
+		<Style TargetType="TextBox" BasedOn="{StaticResource BasicAlignmentStyle}">
+		</Style>
+		<Style TargetType="PasswordBox" BasedOn="{StaticResource BasicAlignmentStyle}">
+		</Style> 
+		<Style TargetType="Button" BasedOn="{StaticResource BasicAlignmentStyle}">
+			<Setter Property="Margin" Value="5,5"/>
+			<Setter Property="Background" 
+					Value="{ThemeResource SystemAccentColorLight1}"/>
+		</Style>
+		
+		<Style TargetType="TextBlock" >
+			<Setter Property="MinHeight" Value="40"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="Margin" Value="30,0,0,0"/>
+		</Style>
+		<Style TargetType="ComboBox">
+			<Setter Property="Width" Value="300"/>
+			<Setter Property="Margin" Value="5,0"/>
+		</Style>
+	</Page.Resources>
+
+	<Grid>
+		<Pivot>
+			<PivotItem Header="Issue/Return">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+					
+				</Grid>
+			</PivotItem>
+			<PivotItem Header="Update Book">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+					<StackPanel Grid.ColumnSpan="2" Margin="0,0,962,0">
+						<TextBlock Text="Add Book" FontSize="32"
+								   Height="50" Margin="0,0"/>
+
+						<StackPanel Grid.Column="0">
+							<TextBlock Text="Book ID *"/>
+							<TextBlock Text="Book Name *" />
+							<TextBlock Text="Author *"/>
+							<TextBlock Text="Price *"/>
+							<TextBlock Text="Rack Number *"/>
+							<TextBlock Text="Status"/>
+							<TextBlock Text="Edition"/>
+							<TextBlock Text="Category *"/>
+						</StackPanel>
+						<Rectangle Fill="{ThemeResource SystemBaseHighColor}" 
+								   Margin="0,30,0,0" Height="2"
+								   MinWidth="100"
+								   VerticalAlignment="Bottom"/>
+						<TextBlock Text="Delete Book" FontSize="32"
+								   Height="50" Margin="30,30,0,0"/>
+						<TextBlock Text="Book Id"/>
+
+					</StackPanel>
+					<StackPanel Grid.Column="1" Margin="0,40,0,0">
+						<TextBox x:Name="BookIDBox"/>
+						<TextBox x:Name="BookNameBox" />
+						<TextBox x:Name="AuthorBox"/>
+						<TextBox x:Name="PriceBox"/>
+						<TextBox x:Name="RackNoBox"/>
+						<ComboBox x:Name="StatusComboBox" Width="300"
+								  PlaceholderText="Select Status"
+								  SelectionChanged="StatusSelectionChanged">
+							<x:String>Available</x:String>
+							<x:String>Issued</x:String>
+						</ComboBox>
+						<TextBox x:Name="EditionBox"/>
+						<ComboBox x:Name="CategoryComboBox" Width="300"
+								  PlaceholderText="Choose Category"
+								  SelectionChanged="CategorySelectionChanged">
+							<x:String>Science</x:String>
+							<x:String>Mathematics</x:String>
+							<x:String>Engineering</x:String>
+						</ComboBox>
+						<Button x:Name="AddBookButton"
+								Content="Add Book"
+								Click="AddBookClicked"/>
+						<TextBox x:Name="DeleteBookIDBox" Margin="5,45,0,0"/>
+						<Button x:Name="DeleteBookButton"
+								Content="Delete Book"
+								Click="DeleteBookClicked"/>
+					</StackPanel>
+
+
+				</Grid>
+			</PivotItem>
+			<PivotItem Header="Members">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+					<StackPanel Grid.ColumnSpan="2" Margin="0,0,962,0">
+						<TextBlock Text="Add User" FontSize="32"
+								   Height="50" Margin="0,0"/>
+
+						<StackPanel Grid.Column="0">
+							<TextBlock Text="User ID *"/>
+							<TextBlock Text="Name *" />
+							<TextBlock Text="Password *"/>
+							<TextBlock Text="Phone No. *"/>
+							<TextBlock Text="Category *"/>
+						</StackPanel>
+						<Rectangle Fill="{ThemeResource SystemBaseHighColor}" 
+								   Margin="0,30,0,0" Height="2"
+								   MinWidth="100"
+								   VerticalAlignment="Bottom"/>
+						<TextBlock Text="Delete User" FontSize="32"
+								   Height="50" Margin="30,30,0,0"/>
+						<TextBlock Text="User Id"/>
+
+					</StackPanel>
+					<StackPanel Grid.Column="1" Margin="0,40,0,0">
+						<TextBox x:Name="MemIDBox"/>
+						<TextBox x:Name="MemNameBox" />
+						<PasswordBox x:Name="PwdBox"/>
+						<TextBox x:Name="PhoneNoBox"/>
+						<ComboBox x:Name="MemCategoryComboBox" Width="300"
+								  PlaceholderText="Choose Category"
+								  SelectionChanged="MemCategorySelectionChanged">
+							<x:String>Under Grad</x:String>
+							<x:String>Post Grad</x:String>
+							<x:String>Research Scholar</x:String>
+							<x:String>Faculty</x:String>
+						</ComboBox>
+						<Button x:Name="AddMemButton"
+								Content="Add User"
+								Click="AddMemClicked"/>
+						<TextBox x:Name="DeleteMemIDBox" Margin="5,45,0,0"/>
+						<Button x:Name="DeleteMemButton"
+								Content="Delete User"
+								Click="DeleteMemClicked"/>
+					</StackPanel>
+
+
+				</Grid>
+			</PivotItem>
+			<PivotItem Header="Book Statistics">
+				<Grid>
+					<TextBlock Text="This page displays book usage frequencies"
+							   HorizontalAlignment="Left" Margin="0"/>
+				</Grid>
+			</PivotItem>
+		</Pivot>
+	</Grid>
 </Page>

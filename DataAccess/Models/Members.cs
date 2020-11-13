@@ -13,28 +13,60 @@ namespace DataAccess.Models
 		public string MemberId { get; set; }
 		public string Name { get; set; }
 		public string Password { get; set; }
-		public int PhoneNo { get; set; }
+		public string PhoneNo { get; set; }
 		public int BooksIssued { get; set; }
 	}
 
 	public class UnderGrad : Members
 	{
-		public int MaxBookLimit { get; } = 2;
-		public int IssueMonthDuration { get; } = 1;
+		public UnderGrad(Members b)
+		{
+			this.MemberId = b.MemberId;
+			this.Name = b.Name;
+			this.Password = b.Password;
+			this.PhoneNo = b.PhoneNo;
+			this.BooksIssued = b.BooksIssued;
+		}
+		public static int MaxBookLimit { get; } = 2;
+		public static int IssueMonthDuration { get; } = 1;
 	}
 	public class PostGrad : Members
 	{
-		public int MaxBookLimit { get; } = 4;
-		public int IssueMonthDuration { get; } = 1;
+		public PostGrad(Members b)
+		{
+			this.MemberId = b.MemberId;
+			this.Name = b.Name;
+			this.Password = b.Password;
+			this.PhoneNo = b.PhoneNo;
+			this.BooksIssued = b.BooksIssued;
+		}
+		public static int MaxBookLimit { get; } = 4;
+		public static int IssueMonthDuration { get; } = 1;
 	}
 	public class ResearchScholar : Members
 	{
-		public int MaxBookLimit { get; } = 6;
-		public int IssueMonthDuration { get; } = 3;
+		public ResearchScholar(Members b)
+		{
+			this.MemberId = b.MemberId;
+			this.Name = b.Name;
+			this.Password = b.Password;
+			this.PhoneNo = b.PhoneNo;
+			this.BooksIssued = b.BooksIssued;
+		}
+		public static int MaxBookLimit { get; } = 6;
+		public static int IssueMonthDuration { get; } = 3;
 	}
 	public class Faculty : Members
 	{
-		public int MaxBookLimit { get; } = 10;
-		public int IssueMonthDuration { get; } = 6;
+		public Faculty(Members b)
+		{
+			this.MemberId = b.MemberId;
+			this.Name = b.Name;
+			this.Password = b.Password;
+			this.PhoneNo = b.PhoneNo;
+			this.BooksIssued = b.BooksIssued;
+		}
+		public static int MaxBookLimit { get; } = 10;
+		public static int IssueMonthDuration { get; } = 6;
 	}
 }

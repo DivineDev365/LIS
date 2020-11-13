@@ -41,9 +41,15 @@ namespace LIS.ViewModels
 		public bool VerifyUser(String uname, String pwd)
 		{
 			if (string.Equals("admin", uname))
+			{
 				LoginCommand(uname, pwd, "librarian");
+				user = "Admin";
+			}
 			else
+			{
 				LoginCommand(uname, pwd, "users");
+				user = "other";
+			}
 
 			if (UserExists)
 				return true;
