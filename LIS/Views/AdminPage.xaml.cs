@@ -98,5 +98,15 @@ namespace LIS.Views
 		{
 
 		}
+
+		private void IssueBookClicked(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void ReturnBookClicked(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
 }

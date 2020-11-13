@@ -45,6 +45,38 @@
 						<ColumnDefinition Width="Auto"/>
 						<ColumnDefinition Width="Auto"/>
 					</Grid.ColumnDefinitions>
+					<StackPanel Grid.ColumnSpan="2" Margin="0,0,962,0">
+						<TextBlock Text="Issue Book" FontSize="32"
+								   Height="50" Margin="0,0"/>
+
+						<StackPanel Grid.Column="0">
+							<TextBlock Text="Book ID *"/>
+							<TextBlock Text="Member ID *" />
+							
+						</StackPanel>
+						<Rectangle Fill="{ThemeResource SystemAccentColorDark3}" 
+								   Margin="0,30,0,0" Height="2"
+								   MinWidth="100"
+								   VerticalAlignment="Bottom"/>
+						<TextBlock Text="Return Book" FontSize="32"
+								   Height="50" Margin="30,30,0,0"/>
+						<TextBlock Text="Book ID *"/>
+						<TextBlock Text="Member ID *" />
+
+					</StackPanel>
+					<StackPanel Grid.Column="1" Margin="0,40,0,0">
+						<TextBox x:Name="IssueBookIDBox"/>
+						<TextBox x:Name="IssueMemNameBox" />
+						
+						<Button x:Name="IssueBookButton"
+								Content="Issue Book"
+								Click="IssueBookClicked"/>
+						<TextBox x:Name="ReturnBookIDBox" Margin="5,75,0,0"/>
+						<TextBox x:Name="ReturnMemIDBox" />
+						<Button x:Name="ReturnBookButton"
+								Content="Return Book"
+								Click="ReturnBookClicked"/>
+					</StackPanel>
 					
 				</Grid>
 			</PivotItem>
@@ -68,7 +100,7 @@
 							<TextBlock Text="Edition"/>
 							<TextBlock Text="Category *"/>
 						</StackPanel>
-						<Rectangle Fill="{ThemeResource SystemBaseHighColor}" 
+						<Rectangle Fill="{ThemeResource SystemAccentColorDark3}" 
 								   Margin="0,30,0,0" Height="2"
 								   MinWidth="100"
 								   VerticalAlignment="Bottom"/>
@@ -100,7 +132,7 @@
 						<Button x:Name="AddBookButton"
 								Content="Add Book"
 								Click="AddBookClicked"/>
-						<TextBox x:Name="DeleteBookIDBox" Margin="5,45,0,0"/>
+						<TextBox x:Name="DeleteBookIDBox" Margin="5,75,0,0"/>
 						<Button x:Name="DeleteBookButton"
 								Content="Delete Book"
 								Click="DeleteBookClicked"/>
