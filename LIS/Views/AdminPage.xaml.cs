@@ -14,6 +14,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using LIS.ViewModels;
 using DataAccess.Models;
+using Windows.Storage;
+using Microsoft.Data.Sqlite;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,29 +33,48 @@ namespace LIS.Views
 			DataContext = viewModel;
 		}
 		private AdminPageViewModel viewModel { get; set; } = new AdminPageViewModel();
-		private string bookcategory = string.Empty;
-		private string ststuscategory = string.Empty;
+		//private string bookcategory = string.Empty;
+		//private string statuscategory = string.Empty;
 		private string membercategory = string.Empty;
 		
-
-		private void CategorySelectionChanged(object sender, SelectionChangedEventArgs e)
+		private async void AddBookClicked(object sender, RoutedEventArgs e)
 		{
-			bookcategory = e.AddedItems[0].ToString();
+			Book book = new Book() 
+			{
+				BookId = BookIDBox.Text,
+				Name = BookNameBox.Text,
+				Author = AuthorBox.Text,
+				Price = PriceBox.Text,
+				RackNo = RackNoBox.Text,
+				Status = StatusComboBox.SelectedItem.ToString(),
+				Edition = EditionBox.Text,
+				Category = CategoryComboBox.SelectedItem.ToString()
+			};
+
+			viewModel.AddBookCommand(book);
+			
+			ContentDialog ResultDialog = new ContentDialog
+			{
+				Title = "Done!",
+				Content = "Operation Successful",
+				CloseButtonText = "Got It!"
+			};
+
+			await ResultDialog.ShowAsync();
 		}
 
-		private void StatusSelectionChanged(object sender, SelectionChangedEventArgs e)
+		private async void DeleteBookClicked(object sender, RoutedEventArgs e)
 		{
-			ststuscategory = e.AddedItems[0].ToString();
-		}
+			viewModel.DeleteBookCommand(DeleteBookIDBox.Text);
 
-		private void AddBookClicked(object sender, RoutedEventArgs e)
-		{
+			ContentDialog ResultDialog = new ContentDialog
+			{
+				Title = "Done!",
+				Content = "Operation Successful",
+				CloseButtonText = "Got It!"
+			};
 
-		}
-
-		private void DeleteBookClicked(object sender, RoutedEventArgs e)
-		{
-
+			await ResultDialog.ShowAsync();
 		}
 
 		private void MemCategorySelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,45 +90,103 @@ namespace LIS.Views
 			user.Password = PwdBox.Password;
 			user.PhoneNo = PhoneNoBox.Text;
 
-			bool result = viewModel.AddUser(user, membercategory);
-			if(result)
+			viewModel.AddUser(user, membercategory);
+			
+			
+			ContentDialog ResultDialog = new ContentDialog
 			{
-				ContentDialog ResultDialog = new ContentDialog
-				{
-					Title = "Successful",
-					Content = "User added to the database.",
-					CloseButtonText = "Got It!"
-				};
+				Title = "Done!",
+				Content = "Operation Successful",
+				CloseButtonText = "Got It!"
+			};
 
-				await ResultDialog.ShowAsync();
-			}
-			else
+			await ResultDialog.ShowAsync();
+		}
+
+		private async void DeleteMemClicked(object sender, RoutedEventArgs e)
+		{
+			viewModel.DeleteUserCommand(DeleteMemIDBox.Text);
+
+			ContentDialog ResultDialog = new ContentDialog
 			{
-				ContentDialog ResultDialog = new ContentDialog
-				{
-					Title = "Failure",
-					Content = "Unable to add user",
-					CloseButtonText = "Got It!"
-				};
+				Title = "Done!",
+				Content = "Operation Successful",
+				CloseButtonText = "Got It!"
+			};
 
-				await ResultDialog.ShowAsync();
-			}
+			await ResultDialog.ShowAsync();
 			
 		}
 
-		private void DeleteMemClicked(object sender, RoutedEventArgs e)
+		private async void IssueBookClicked(object sender, RoutedEventArgs e)
 		{
+			viewModel.IssueBookCommand(IssueBookIDBox.Text, IssueMemIDBox.Text);
+			ContentDialog ResultDialog = new ContentDialog
+			{
+				Title = "Message",
+				Content = $"{viewModel.IssueBookStatus}",
+				CloseButtonText = "Got It!"
+			};
 
-		}
-
-		private void IssueBookClicked(object sender, RoutedEventArgs e)
-		{
-
+			await ResultDialog.ShowAsync();
 		}
 
 		private void ReturnBookClicked(object sender, RoutedEventArgs e)
 		{
 
+		}
+
+		private async void ShowUsersClicked(object sender, RoutedEventArgs e)
+		{
+			ObservableCollection<Members> members = new ObservableCollection<Members>();
+			await ApplicationData.Current.LocalFolder.CreateFileAsync("University.db", CreationCollisionOption.OpenIfExists);
+			string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "University.db");
+			using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
+			{
+				db.Open();
+
+				String userCommand = "SELECT * FROM users";
+
+				SqliteCommand cmd = new SqliteCommand(userCommand, db);
+
+				SqliteDataReader result = cmd.ExecuteReader();
+
+				while(result.Read())
+				{
+					members.Add(new Members() { 
+						MemberId = result.GetString(0),
+						Name = result.GetString(1),
+						PhoneNo = result.GetString(3),
+						BooksIssued = int.Parse(result.GetString(4)),
+						MaxBookLimit = int.Parse(result.GetString(5)),
+						IssueMonthDuration = int.Parse(result.GetString(6))
+					});
+				}
+
+				db.Close();
+				UsersGrid.ItemsSource = members;
+			}
+		}
+
+		private void ClearUserClicked(object sender, RoutedEventArgs e)
+		{
+			MemIDBox.Text = string.Empty;
+			MemNameBox.Text = string.Empty;
+			PwdBox.Password = string.Empty;
+			PhoneNoBox.Text = string.Empty;
+			MemCategoryComboBox.Text = string.Empty;
+		}
+
+		private void ClearBookClicked(object sender, RoutedEventArgs e)
+		{
+			BookIDBox.Text = string.Empty;
+			BookNameBox.Text = string.Empty;
+			AuthorBox.Text = string.Empty;
+			PriceBox.Text = string.Empty;
+			RackNoBox.Text = string.Empty;
+			StatusComboBox.Text = string.Empty;
+			EditionBox.Text = string.Empty;
+			CategoryComboBox.Text = string.Empty;
 		}
 	}
 }

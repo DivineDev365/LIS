@@ -10,22 +10,25 @@ namespace DataAccess.Models
 {
 	public class Book
 	{
-		[Key]
-		[Required]
+		
 		public string BookId { get; set; }
-		[Required]
+		
 		public string Name { get; set; }
-		[Required]
+		
 		public string Author { get; set; }
-		[Required]
-		public float Price { get; set; }
+		
+		public string Price { get; set; }
 
 		public string RackNo { get; set; }
-		[Required]
+		
 		public string Status { get; set; }
 		public string Edition { get; set; }
-		[Required]
+		
 		public string Category { get; set; }
+
+		public string IssuedTo { get; set; }
+		public string IsReserved { get; set; }
+		public string IssueDate { get; set; }
 
 		public void DisplayBookDetails() { }
 		public void UpdateStatus() { }

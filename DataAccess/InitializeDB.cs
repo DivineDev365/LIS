@@ -36,11 +36,14 @@ namespace DataAccess
                     "EXISTS books (BookID TEXT PRIMARY KEY, " +
                     "Name TEXT," +
                     "Author TEXT," +
-                    "Price INT," + //store in paisa and divide by 100 to convert to Rs
+                    "Price INT," + 
                     "RackNo TEXT," +
                     "Status TEXT," +
                     "Edition TEXT," +
-                    "Category TEXT )";
+                    "Category TEXT," +
+                    "IssuedTo TEXT," +
+                    "IsReserved TEXT," +
+                    "IssueDate TEXT )";
 
                 SqliteCommand createbookTable = new SqliteCommand(booktableCommand, db);
 
@@ -54,6 +57,10 @@ namespace DataAccess
                 SqliteCommand createlibrarianTable = new SqliteCommand(librariantableCommand, db);
 
                 createlibrarianTable.ExecuteReader();
+
+                string AddLibcommand = "INSERT OR IGNORE INTO librarian VALUES ('1', 'Admin', 'Admin')";
+                SqliteCommand updatelibrarian = new SqliteCommand(AddLibcommand,db);
+                updatelibrarian.ExecuteReader();
          
                 String transtableCommand = "CREATE TABLE IF NOT " +
                     "EXISTS trans (TransID TEXT PRIMARY KEY, " +

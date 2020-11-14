@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+	xmlns:tkcontrols="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Page.Resources>
@@ -54,7 +55,7 @@
 							<TextBlock Text="Member ID *" />
 							
 						</StackPanel>
-						<Rectangle Fill="{ThemeResource SystemAccentColorDark3}" 
+						<Rectangle Fill="{ThemeResource SystemAccentColorLight3}" 
 								   Margin="0,30,0,0" Height="2"
 								   MinWidth="100"
 								   VerticalAlignment="Bottom"/>
@@ -66,7 +67,7 @@
 					</StackPanel>
 					<StackPanel Grid.Column="1" Margin="0,40,0,0">
 						<TextBox x:Name="IssueBookIDBox"/>
-						<TextBox x:Name="IssueMemNameBox" />
+						<TextBox x:Name="IssueMemIDBox" />
 						
 						<Button x:Name="IssueBookButton"
 								Content="Issue Book"
@@ -99,8 +100,11 @@
 							<TextBlock Text="Status"/>
 							<TextBlock Text="Edition"/>
 							<TextBlock Text="Category *"/>
+							<Button Content="Clear All" Click="ClearBookClicked"
+									MinWidth="50" Margin="30,0,0,0"
+									HorizontalAlignment="Center"/>
 						</StackPanel>
-						<Rectangle Fill="{ThemeResource SystemAccentColorDark3}" 
+						<Rectangle Fill="{ThemeResource SystemAccentColorLight3}" 
 								   Margin="0,30,0,0" Height="2"
 								   MinWidth="100"
 								   VerticalAlignment="Bottom"/>
@@ -109,22 +113,20 @@
 						<TextBlock Text="Book Id"/>
 
 					</StackPanel>
-					<StackPanel Grid.Column="1" Margin="0,40,0,0">
+					<StackPanel Grid.Column="1" Margin="0,35,0,0">
 						<TextBox x:Name="BookIDBox"/>
 						<TextBox x:Name="BookNameBox" />
 						<TextBox x:Name="AuthorBox"/>
 						<TextBox x:Name="PriceBox"/>
 						<TextBox x:Name="RackNoBox"/>
 						<ComboBox x:Name="StatusComboBox" Width="300"
-								  PlaceholderText="Select Status"
-								  SelectionChanged="StatusSelectionChanged">
+								  PlaceholderText="Select Status">
 							<x:String>Available</x:String>
 							<x:String>Issued</x:String>
 						</ComboBox>
 						<TextBox x:Name="EditionBox"/>
 						<ComboBox x:Name="CategoryComboBox" Width="300"
-								  PlaceholderText="Choose Category"
-								  SelectionChanged="CategorySelectionChanged">
+								  PlaceholderText="Choose Category">
 							<x:String>Science</x:String>
 							<x:String>Mathematics</x:String>
 							<x:String>Engineering</x:String>
@@ -132,7 +134,7 @@
 						<Button x:Name="AddBookButton"
 								Content="Add Book"
 								Click="AddBookClicked"/>
-						<TextBox x:Name="DeleteBookIDBox" Margin="5,75,0,0"/>
+						<TextBox x:Name="DeleteBookIDBox" Margin="5,110,0,0"/>
 						<Button x:Name="DeleteBookButton"
 								Content="Delete Book"
 								Click="DeleteBookClicked"/>
@@ -141,7 +143,7 @@
 
 				</Grid>
 			</PivotItem>
-			<PivotItem Header="Members">
+			<PivotItem Header="Update User">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto"/>
@@ -157,8 +159,11 @@
 							<TextBlock Text="Password *"/>
 							<TextBlock Text="Phone No. *"/>
 							<TextBlock Text="Category *"/>
+							<Button Content="Clear All" Click="ClearUserClicked"
+									MinWidth="50" Margin="30,0,0,0"
+									HorizontalAlignment="Center"/>
 						</StackPanel>
-						<Rectangle Fill="{ThemeResource SystemBaseHighColor}" 
+						<Rectangle Fill="{ThemeResource SystemAccentColorLight3}" 
 								   Margin="0,30,0,0" Height="2"
 								   MinWidth="100"
 								   VerticalAlignment="Bottom"/>
@@ -183,7 +188,7 @@
 						<Button x:Name="AddMemButton"
 								Content="Add User"
 								Click="AddMemClicked"/>
-						<TextBox x:Name="DeleteMemIDBox" Margin="5,45,0,0"/>
+						<TextBox x:Name="DeleteMemIDBox" Margin="5,110,0,0"/>
 						<Button x:Name="DeleteMemButton"
 								Content="Delete User"
 								Click="DeleteMemClicked"/>
@@ -192,7 +197,17 @@
 
 				</Grid>
 			</PivotItem>
-			<PivotItem Header="Book Statistics">
+			<PivotItem Header="View Users">
+				<Grid>
+					<StackPanel>
+						<Button Content="Show Members" Margin="10,10"
+								Click="ShowUsersClicked"/>
+						<tkcontrols:DataGrid x:Name="UsersGrid" />
+					</StackPanel>
+				</Grid>
+				
+			</PivotItem>
+			<PivotItem Header="Statistics">
 				<Grid>
 					<TextBlock Text="This page displays book usage frequencies"
 							   HorizontalAlignment="Left" Margin="0"/>
