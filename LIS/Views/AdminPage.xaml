@@ -62,7 +62,6 @@
 						<TextBlock Text="Return Book" FontSize="32"
 								   Height="50" Margin="30,30,0,0"/>
 						<TextBlock Text="Book ID *"/>
-						<TextBlock Text="Member ID *" />
 
 					</StackPanel>
 					<StackPanel Grid.Column="1" Margin="0,40,0,0">
@@ -73,7 +72,6 @@
 								Content="Issue Book"
 								Click="IssueBookClicked"/>
 						<TextBox x:Name="ReturnBookIDBox" Margin="5,75,0,0"/>
-						<TextBox x:Name="ReturnMemIDBox" />
 						<Button x:Name="ReturnBookButton"
 								Content="Return Book"
 								Click="ReturnBookClicked"/>

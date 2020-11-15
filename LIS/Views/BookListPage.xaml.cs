@@ -30,28 +30,41 @@ namespace LIS.Views
 			{
 				db.Open();
 
-				String userCommand = "SELECT BookID, Name, Author, Price, RackNo, Status, Edition, Category, IssuedTo, IsReserved" +
-					" FROM books"; //ORDER BY Category
-
-				SqliteCommand cmd = new SqliteCommand(userCommand, db);
-
-				SqliteDataReader result = cmd.ExecuteReader();
-
-				while (result.Read())
+				try
 				{
-					books.Add(new Book()
+					String userCommand = "SELECT BookID, Name, Author, Price, RackNo, Status, Edition, Category, IssuedTo, IsReserved" +
+						" FROM books ORDER BY Category";
+
+					SqliteCommand cmd = new SqliteCommand(userCommand, db);
+
+					SqliteDataReader result = cmd.ExecuteReader();
+
+					while (result.Read())
 					{
-						BookId = result.GetString(0),
-						Name = result.GetString(1),
-						Author = result.GetString(2),
-						Price = result.GetString(3),
-						RackNo = result.GetString(4),
-						Status = result.GetString(5),
-						Edition = result.GetString(6),
-						Category = result.GetString(7),
-						IssuedTo = result.GetString(8),
-						IsReserved = result.GetString(9)
-					});
+						books.Add(new Book()
+						{
+							BookId = result.GetString(0),
+							Name = result.GetString(1),
+							Author = result.GetString(2),
+							Price = result.GetString(3),
+							RackNo = result.GetString(4),
+							Status = result.GetString(5),
+							Edition = result.GetString(6),
+							Category = result.GetString(7),
+							IssuedTo = result.GetString(8),
+							IsReserved = result.GetString(9)
+						});
+					}
+				}
+				catch(Exception e)
+				{
+					ContentDialog errorDialog = new ContentDialog
+					{ 
+						Title = "Message",
+						Content = e.Message,
+						CloseButtonText = "Got It!"
+					};
+					await errorDialog.ShowAsync();
 				}
 
 				db.Close();

@@ -133,7 +133,8 @@ namespace LIS.Views
 
 		private void ReturnBookClicked(object sender, RoutedEventArgs e)
 		{
-
+			viewModel.ReturnBook(ReturnBookIDBox.Text);
+			
 		}
 
 		private async void ShowUsersClicked(object sender, RoutedEventArgs e)
@@ -148,19 +149,32 @@ namespace LIS.Views
 				String userCommand = "SELECT * FROM users";
 
 				SqliteCommand cmd = new SqliteCommand(userCommand, db);
-
-				SqliteDataReader result = cmd.ExecuteReader();
-
-				while(result.Read())
+				try
 				{
-					members.Add(new Members() { 
-						MemberId = result.GetString(0),
-						Name = result.GetString(1),
-						PhoneNo = result.GetString(3),
-						BooksIssued = int.Parse(result.GetString(4)),
-						MaxBookLimit = int.Parse(result.GetString(5)),
-						IssueMonthDuration = int.Parse(result.GetString(6))
-					});
+					SqliteDataReader result = cmd.ExecuteReader();
+
+					while (result.Read())
+					{
+						members.Add(new Members()
+						{
+							MemberId = result.GetString(0),
+							Name = result.GetString(1),
+							PhoneNo = result.GetString(3),
+							BooksIssued = int.Parse(result.GetString(4)),
+							MaxBookLimit = int.Parse(result.GetString(5)),
+							IssueMonthDuration = int.Parse(result.GetString(6))
+						});
+					}
+				}
+				catch (Exception ex)
+				{
+					ContentDialog errorDialog = new ContentDialog
+					{
+						Title = "Message",
+						Content = ex.Message,
+						CloseButtonText = "Got It!"
+					};
+					await errorDialog.ShowAsync();
 				}
 
 				db.Close();

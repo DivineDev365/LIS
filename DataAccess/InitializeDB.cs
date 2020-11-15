@@ -43,7 +43,7 @@ namespace DataAccess
                     "Category TEXT," +
                     "IssuedTo TEXT," +
                     "IsReserved TEXT," +
-                    "IssueDate TEXT )";
+                    "IssueDate datetime )";
 
                 SqliteCommand createbookTable = new SqliteCommand(booktableCommand, db);
 
