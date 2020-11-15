@@ -9,7 +9,8 @@ namespace DataAccess.Models
 {
 	public class Members
 	{
-		[Key]
+		public static string CurrentUser { get; set; }
+
 		public string MemberId { get; set; }
 		public string Name { get; set; }
 		public string Password { get; set; }

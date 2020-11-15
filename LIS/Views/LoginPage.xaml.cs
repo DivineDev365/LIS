@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using LIS.ViewModels;
+using DataAccess.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -63,6 +64,8 @@ namespace LIS.Views
 			{
 				//verify user. DON'T CALL IF DB IS EMPTY
 				//ViewModel.VerifyUser(UserNameBox.Text, PwdBox.Password);
+
+				Members.CurrentUser = UserNameBox.Text;
 				Frame.Navigate(typeof(Views.NavPage));
 			}
 		}

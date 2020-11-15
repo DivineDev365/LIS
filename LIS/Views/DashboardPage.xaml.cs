@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LIS.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,10 @@ namespace LIS.Views
 		public DashboardPage()
 		{
 			this.InitializeComponent();
+			DashboardPageViewModel viewModel = new DashboardPageViewModel();
+			DataContext = viewModel;
+			
 		}
+		
 	}
 }
