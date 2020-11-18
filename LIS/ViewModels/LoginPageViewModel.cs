@@ -6,54 +6,81 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using DataAccess.Models;
+using Windows.UI.Xaml.Controls;
 
 namespace LIS.ViewModels
 {
 	public class LoginPageViewModel
 	{
-		public static string user = string.Empty;
-		private bool UserExists = false;
+		//public static string user = string.Empty;
+		public bool UserExists = false;
 
-		private async void LoginCommand(string uname, string pwd, string tablename)
+		public async Task VerifyUserAsync(String uid, String pwd)
 		{
-			await ApplicationData.Current.LocalFolder.CreateFileAsync("University.db", CreationCollisionOption.OpenIfExists);
-			string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "University.db");
-			using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
+			
+			string tablename = string.Empty;
+
+			if (uid.Equals("admin", StringComparison.InvariantCultureIgnoreCase))
 			{
-				db.Open();
-
-				String userCommand = $"SELECT EXISTS ( SELECT* FROM {tablename} " +
-					$"WHERE ID = {uname} AND password = {pwd})";
-
-				SqliteCommand cmd = new SqliteCommand(userCommand, db);
-
-				SqliteDataReader result = cmd.ExecuteReader();
-				while(result.Read())
-				{
-					UserExists = bool.Parse(result.GetString(0));
-				}
-
-				db.Close();
-			}
-
-		}
-
-		public bool VerifyUser(String uname, String pwd)
-		{
-			if (string.Equals("admin", uname))
-			{
-				LoginCommand(uname, pwd, "librarian");
-				user = "Admin";
+				//await LoginCommand("Admin", pwd, "librarian");
+				uid = "Admin";
+				tablename = "librarian";
+				Members.CurrentUser = "Admin";
 			}
 			else
 			{
-				LoginCommand(uname, pwd, "users");
-				user = "other";
+				//await LoginCommand(uid, pwd, "users");
+				tablename = "users";
+				Members.CurrentUser = uid;
 			}
 
-			if (UserExists)
-				return true;
-            return false;
+			try
+			{
+				await ApplicationData.Current.LocalFolder.CreateFileAsync("University.db", CreationCollisionOption.OpenIfExists);
+				string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "University.db");
+				using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
+				{
+					db.Open();
+
+					String userCommand = $"SELECT EXISTS ( SELECT * FROM {tablename} " +
+						$"WHERE ID = '{uid}' AND Password = '{pwd}')";
+
+					SqliteCommand cmd = new SqliteCommand(userCommand, db);
+
+					SqliteDataReader result = cmd.ExecuteReader();
+					while (result.Read())
+					{
+						if (result.GetString(0).Equals("1"))
+							UserExists = true;
+						else
+							UserExists = false;
+						
+					}
+
+					db.Close();
+				}
+			}
+			catch (Exception e)
+			{
+				await ShowDialogBox(e.Message);
+			}
+
+			//if (UserExists)
+			//	return true;
+   //         return false;
+		}
+
+		private async Task ShowDialogBox(string content)
+		{
+			ContentDialog ResultDialog = new ContentDialog
+			{
+				Title = "Message",
+				Content = content,
+				CloseButtonText = "Got It!"
+			};
+
+			await ResultDialog.ShowAsync();
 		}
 	}
 }

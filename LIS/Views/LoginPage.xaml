@@ -28,8 +28,10 @@
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource CustomAcrylicDefault}">
+		
 		<TextBlock Text="Library Information System" 
 				   Style="{ThemeResource HeaderTextBlockStyle}"
+				   VerticalAlignment="Top"
 				   HorizontalAlignment="Center" Margin="0,50,0,0"
 				   Foreground="{ThemeResource SystemAccentColorLight3}"
 				   FontSize="72" FontWeight="SemiBold"/>
@@ -38,7 +40,7 @@
 					   Style="{ThemeResource BaseTextBlockStyle}"
 					   Foreground="{ThemeResource SystemBaseHighColor}"
 					   FontSize="{StaticResource HubHeaderThemeFontSize}"/>
-			<TextBox x:Name="UserNameBox" PlaceholderText="User Name"/>
+			<TextBox x:Name="UserIDBox" PlaceholderText="User ID"/>
 			<PasswordBox x:Name="PwdBox" PlaceholderText="Password"/>
 			<Button x:Name="LoginButton" Content="Login"
 					Click="Login_Clicked" IsEnabled="True" />
@@ -55,5 +57,6 @@
 			<Button Content="Sign Up" Click="SignUpClicked" 
 					Margin="0,10,0,50"/>
 		</StackPanel>
+		
 	</Grid>
 </Page>

@@ -58,7 +58,7 @@ namespace DataAccess
 
                 createlibrarianTable.ExecuteReader();
 
-                string AddLibcommand = "INSERT OR IGNORE INTO librarian VALUES ('1', 'Admin', 'Admin')";
+                string AddLibcommand = "INSERT OR IGNORE INTO librarian VALUES ('Admin', 'Admin', 'Admin')";
                 SqliteCommand updatelibrarian = new SqliteCommand(AddLibcommand,db);
                 updatelibrarian.ExecuteReader();
          

@@ -47,8 +47,13 @@ namespace LIS.ViewModels
 
 		}
 
-		public void AddUser(Members user, string category)
+		public async void AddUser(Members user, string category)
 		{
+			if(user.MemberId.Equals("admin", StringComparison.InvariantCultureIgnoreCase))
+			{
+				await ShowDialogBox("Invalid User Id. Please enter another.");
+				return;
+			}
 			if (string.Equals(category, "Under Grad"))
 			{
 				maxbook = UnderGrad.MaxBookLimit.ToString();
@@ -120,7 +125,8 @@ namespace LIS.ViewModels
 				}
 				catch (Exception e)
 				{
-					await ShowDialogBox(e.Message);
+					IssueBookStatus = e.Message;
+					//await ShowDialogBox(e.Message);
 					//goto closedb;
 				}
 				db.Close();
@@ -146,11 +152,11 @@ namespace LIS.ViewModels
 			}
 		}
 
-		public string IssueBook(string bookid, string memid)
-		{
-			IssueBookCommand(bookid, memid);
-			return IssueBookStatus;
-		}
+		//public string IssueBook(string bookid, string memid)
+		//{
+		//	IssueBookCommand(bookid, memid);
+		//	return IssueBookStatus;
+		//}
 
 		public async void IssueBookCommand(string bookid, string memid)
 		{
@@ -202,18 +208,18 @@ namespace LIS.ViewModels
 							SqliteDataReader IncMembookResult = incuserbookcmd.ExecuteReader();
 
 							if (IssueResult.HasRows && IncMembookResult.HasRows)
-								IssueBookStatus = "Successfully Issued";
+								await ShowDialogBox( "Successfully Issued");
 							else
-								IssueBookStatus = "Else of Successfully issued";
+								await ShowDialogBox("Else of Successfully issued");
 						}
 						else
 						{
-							IssueBookStatus = "Sorry, the Book is Issued or Reserved.";
+							await ShowDialogBox("Sorry, the Book is Issued or Reserved.");
 						}
 					}
 					else
 					{
-						IssueBookStatus = "Max Book Limit Exceed. Return a book and try again.";
+						await ShowDialogBox("Max Book Limit Exceed. Return a book and try again.");
 					}
 				}
 					catch (Exception e)
@@ -264,12 +270,15 @@ namespace LIS.ViewModels
 					while (BookResult.Read())
 					{
 						bookstatus = BookResult.GetString(0);
-						IssuedMem = BookResult.GetString(1);
-						days = double.Parse(BookResult.GetString(2));
 					}
 				
 					if (string.Equals(bookstatus, "Issued"))
 					{
+						while (BookResult.Read())
+						{
+							IssuedMem = BookResult.GetString(1);
+							days = double.Parse(BookResult.GetString(2));
+						}
 						String GetUserCommand = "Select BooksIssued, IssueMonthDuration from users" +
 						$" WHERE ID = '{IssuedMem}'";
 
@@ -330,7 +339,7 @@ namespace LIS.ViewModels
 					else
 						await ShowDialogBox("Book is not issued to anyone.");
 				}
-				catch (InvalidCastException e)
+				catch (Exception e)
 				{
 					await ShowDialogBox($"Book Not Issued \n{e.Message}");
 					goto dbclose;

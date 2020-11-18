@@ -45,7 +45,7 @@ namespace LIS.Views
 			{
 				field = "Password"; empty = true;
 			}
-			if (string.IsNullOrEmpty(UserNameBox.Text))
+			if (string.IsNullOrEmpty(UserIDBox.Text))
 			{
 				field = "User Name"; empty = true;
 			}
@@ -63,10 +63,25 @@ namespace LIS.Views
 			else
 			{
 				//verify user. DON'T CALL IF DB IS EMPTY
-				//ViewModel.VerifyUser(UserNameBox.Text, PwdBox.Password);
+				await ViewModel.VerifyUserAsync(UserIDBox.Text, PwdBox.Password);
+				if (ViewModel.UserExists)
+				{
+					//Members.CurrentUser = UserIDBox.Text;
+					Frame.Navigate(typeof(Views.NavPage));
+				}
+				else
+				{
+					ViewModel.UserExists = false;
+					ContentDialog ResultDialog = new ContentDialog
+						{
+							Title = "Error",
+							Content = "Incorrect User ID or Password",
+							CloseButtonText = "Got It!"
+						};
 
-				Members.CurrentUser = UserNameBox.Text;
-				Frame.Navigate(typeof(Views.NavPage));
+						await ResultDialog.ShowAsync();
+					
+				}
 			}
 		}
 

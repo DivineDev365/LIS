@@ -11,9 +11,9 @@
 	xmlns:models="using:DataAccess.Models"
 	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<Page.DataContext>
+	<!--<Page.DataContext>
 		<viewModels:DashboardPageViewModel/>
-	</Page.DataContext>
+	</Page.DataContext>-->
 	<Page.Resources>
 		<Style x:Name="BasicAlignmentStyle" TargetType="Control">
 			<Setter Property="MinHeight" Value="30"/>
@@ -62,15 +62,15 @@
 								<TextBlock Text="Issue Duration:"/>
 							</StackPanel>
 							<StackPanel Grid.Column="1">
-								<ListView ItemsSource="{Binding User}">
+								<ListView x:Name="UserListView" SelectionMode="Single">
 									<ListView.ItemTemplate>
 										<DataTemplate x:Name="UserDataTemplate" x:DataType="models:Members">
 											<StackPanel>
-												<TextBlock Text="{Binding MemberId}"/>
-												<TextBlock Text="{Binding Name}"/>
-												<TextBlock Text="{Binding BooksIssued}"/>
-												<TextBlock Text="{Binding MaxBookLimit}"/>
-												<TextBlock Text="{Binding IssueMonthDuration}"/>
+												<TextBlock Text="{Binding MemberId}" MinHeight="40"/>
+												<TextBlock Text="{Binding Name}" MinHeight="40"/>
+												<TextBlock Text="{Binding BooksIssued}" MinHeight="40"/>
+												<TextBlock Text="{Binding MaxBookLimit}" MinHeight="40"/>
+												<TextBlock Text="{Binding IssueMonthDuration}" MinHeight="40"/>
 											</StackPanel>
 										</DataTemplate>
 									</ListView.ItemTemplate>
@@ -81,7 +81,11 @@
 					<StackPanel Margin="0,5" BorderThickness="2" 
 								BorderBrush="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
 						<TextBlock Text="Books issued to you:"/>
-						<tkcontrols:DataGrid ItemsSource="{Binding UserBooks}"/>
+						<tkcontrols:DataGrid x:Name="UserBooksGrid"
+											 ItemsSource="{Binding}"
+											 AlternatingRowBackground="Transparent"
+							 AlternatingRowForeground="{ThemeResource SystemAccentColorLight3}"
+							 CanUserResizeColumns="True"/>
 					</StackPanel>
 				</StackPanel>
 			</Grid>

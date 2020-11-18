@@ -118,17 +118,10 @@ namespace LIS.Views
 			
 		}
 
-		private async void IssueBookClicked(object sender, RoutedEventArgs e)
+		private  void IssueBookClicked(object sender, RoutedEventArgs e)
 		{
 			viewModel.IssueBookCommand(IssueBookIDBox.Text, IssueMemIDBox.Text);
-			ContentDialog ResultDialog = new ContentDialog
-			{
-				Title = "Message",
-				Content = $"{viewModel.IssueBookStatus}",
-				CloseButtonText = "Got It!"
-			};
-
-			await ResultDialog.ShowAsync();
+			
 		}
 
 		private void ReturnBookClicked(object sender, RoutedEventArgs e)

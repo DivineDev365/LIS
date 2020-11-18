@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -45,9 +46,8 @@ namespace LIS.Views
         {
             // Add UI items in code.
             //add this only if user is Admin
-            //TODO: add code to check for Admin user
-            //if (string.Equals(ViewModels.LoginPageViewModel.user, "Admin"))
-            //{
+            if (string.Equals(Members.CurrentUser, "Admin",StringComparison.InvariantCultureIgnoreCase))
+            {
                 NavView.MenuItems.Add(new muxc.NavigationViewItemSeparator());
                 NavView.MenuItems.Add(new muxc.NavigationViewItemHeader() { Content = "Administrator" });
                 NavView.MenuItems.Add(new muxc.NavigationViewItem
@@ -57,7 +57,7 @@ namespace LIS.Views
                     Tag = "admin"
                 });
                 _pages.Add(("admin", typeof(AdminPage)));
-            //}
+            }
 
             // Add handler for ContentFrame navigation.
             ContentFrame.Navigated += On_Navigated;
