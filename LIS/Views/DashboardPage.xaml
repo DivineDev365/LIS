@@ -51,7 +51,7 @@
 								BorderBrush="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
 						<Grid>
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="Auto" MinWidth="10"/>
 								<ColumnDefinition Width="Auto"/>
 							</Grid.ColumnDefinitions>
 							<StackPanel Grid.Column="0">
@@ -59,7 +59,7 @@
 								<TextBlock Text="Name:"/>
 								<TextBlock Text="Books Issued:"/>
 								<TextBlock Text="Book Limit:"/>
-								<TextBlock Text="Issue Duration:"/>
+								<TextBlock Text="Issue Duration (months):" TextWrapping="Wrap"/>
 							</StackPanel>
 							<StackPanel Grid.Column="1">
 								<ListView x:Name="UserListView" SelectionMode="Single">

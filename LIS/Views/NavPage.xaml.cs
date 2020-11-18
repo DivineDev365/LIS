@@ -27,6 +27,7 @@ namespace LIS.Views
 		public NavPage()
 		{
 			this.InitializeComponent();
+            PaneFooterItem.Content = $"{Members.CurrentUser} (Logout)";
 		}
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {

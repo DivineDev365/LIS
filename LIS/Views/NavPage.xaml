@@ -20,7 +20,7 @@
 				<TextBlock Text="Library Menu" Style="{StaticResource TitleTextBlockStyle}"/>
 			</muxc:NavigationView.PaneHeader>
 			<muxc:NavigationView.PaneFooter>
-				<muxc:NavigationViewItem Icon="Contact" Tapped="PaneFooterClicked" Content="Logout"/>
+				<muxc:NavigationViewItem x:Name="PaneFooterItem" Icon="Contact" Tapped="PaneFooterClicked"/>
 			</muxc:NavigationView.PaneFooter>
 			<muxc:NavigationView.MenuItems>
 				<muxc:NavigationViewItem Icon="Home" Tag="Dashboard" Content="Dashboard"/>
