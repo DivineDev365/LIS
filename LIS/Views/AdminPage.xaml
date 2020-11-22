@@ -209,8 +209,15 @@
 			</PivotItem>
 			<PivotItem Header="Statistics">
 				<Grid>
-					<TextBlock Text="This page displays book usage frequencies"
-							   HorizontalAlignment="Left" Margin="0"/>
+					<StackPanel>
+						<TextBlock Text="This page displays book usage frequencies"
+								   HorizontalAlignment="Left" Margin="0"/>
+						<Button Content="Show Usage" Click="BookUsageClicked"/>
+						<tkcontrols:DataGrid x:Name="UsageDataGrid" Margin="10"
+							 AlternatingRowBackground="Transparent"
+							 AlternatingRowForeground="{ThemeResource SystemAccentColorLight3}"
+							 CanUserResizeColumns="True"></tkcontrols:DataGrid>
+					</StackPanel>
 				</Grid>
 			</PivotItem>
 		</Pivot>

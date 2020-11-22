@@ -16,7 +16,9 @@ namespace DataAccess.Models
 		public string Name { get; set; }
 		
 		public string Author { get; set; }
-		
+
+		public string IssueCount { get; set; }
+
 		public string Price { get; set; }
 
 		public string RackNo { get; set; }
@@ -32,7 +34,7 @@ namespace DataAccess.Models
 		public string IssueDate { get; set; }
 		public string ReserveDate { get; set; }
 
-		public string IssueCount { get; set; }
+		
 		
 
 		public void DisplayBookDetails() { }

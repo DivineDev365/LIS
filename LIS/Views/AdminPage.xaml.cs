@@ -36,8 +36,9 @@ namespace LIS.Views
 		//private string bookcategory = string.Empty;
 		//private string statuscategory = string.Empty;
 		private string membercategory = string.Empty;
-		
-		private async void AddBookClicked(object sender, RoutedEventArgs e)
+		private ObservableCollection<Book> bookusage = new ObservableCollection<Book>();
+
+		private void AddBookClicked(object sender, RoutedEventArgs e)
 		{
 			Book book = new Book() 
 			{
@@ -53,28 +54,11 @@ namespace LIS.Views
 
 			viewModel.AddBookCommand(book);
 			
-			ContentDialog ResultDialog = new ContentDialog
-			{
-				Title = "Done!",
-				Content = "Operation Successful",
-				CloseButtonText = "Got It!"
-			};
-
-			await ResultDialog.ShowAsync();
 		}
 
-		private async void DeleteBookClicked(object sender, RoutedEventArgs e)
+		private void DeleteBookClicked(object sender, RoutedEventArgs e)
 		{
 			viewModel.DeleteBookCommand(DeleteBookIDBox.Text);
-
-			ContentDialog ResultDialog = new ContentDialog
-			{
-				Title = "Done!",
-				Content = "Operation Successful",
-				CloseButtonText = "Got It!"
-			};
-
-			await ResultDialog.ShowAsync();
 		}
 
 		private void MemCategorySelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -82,7 +66,7 @@ namespace LIS.Views
 			membercategory = e.AddedItems[0].ToString();
 		}
 
-		private async void AddMemClicked(object sender, RoutedEventArgs e)
+		private void AddMemClicked(object sender, RoutedEventArgs e)
 		{
 			Members user = new Members();
 			user.MemberId = MemIDBox.Text;
@@ -91,31 +75,11 @@ namespace LIS.Views
 			user.PhoneNo = PhoneNoBox.Text;
 
 			viewModel.AddUser(user, membercategory);
-			
-			
-			ContentDialog ResultDialog = new ContentDialog
-			{
-				Title = "Done!",
-				Content = "Operation Successful",
-				CloseButtonText = "Got It!"
-			};
-
-			await ResultDialog.ShowAsync();
 		}
 
-		private async void DeleteMemClicked(object sender, RoutedEventArgs e)
+		private void DeleteMemClicked(object sender, RoutedEventArgs e)
 		{
 			viewModel.DeleteUserCommand(DeleteMemIDBox.Text);
-
-			ContentDialog ResultDialog = new ContentDialog
-			{
-				Title = "Done!",
-				Content = "Operation Successful",
-				CloseButtonText = "Got It!"
-			};
-
-			await ResultDialog.ShowAsync();
-			
 		}
 
 		private  void IssueBookClicked(object sender, RoutedEventArgs e)
@@ -194,6 +158,52 @@ namespace LIS.Views
 			StatusComboBox.Text = string.Empty;
 			EditionBox.Text = string.Empty;
 			CategoryComboBox.Text = string.Empty;
+		}
+
+		private async void BookUsageClicked(object sender, RoutedEventArgs e)
+		{
+			
+
+			await ApplicationData.Current.LocalFolder.CreateFileAsync("University.db", CreationCollisionOption.OpenIfExists);
+			string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "University.db");
+			using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
+			{
+				db.Open();
+
+				try
+				{
+					String userCommand = "SELECT BookID, Name, Author, IssueCount" +
+						" FROM books ORDER BY IssueCount";
+
+					SqliteCommand cmd = new SqliteCommand(userCommand, db);
+
+					SqliteDataReader result = cmd.ExecuteReader();
+
+					while (result.Read())
+					{
+						bookusage.Add(new Book()
+						{
+							BookId = result.GetString(0),
+							Name = result.GetString(1),
+							Author = result.GetString(2),
+							IssueCount = result.GetString(3),
+						});
+					}
+				}
+				catch (Exception ex)
+				{
+					ContentDialog errorDialog = new ContentDialog
+					{
+						Title = "Message",
+						Content = ex.Message,
+						CloseButtonText = "Got It!"
+					};
+					await errorDialog.ShowAsync();
+				}
+
+				db.Close();
+				UsageDataGrid.ItemsSource = bookusage;
+			}
 		}
 	}
 }
