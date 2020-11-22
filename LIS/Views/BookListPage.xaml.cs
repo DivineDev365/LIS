@@ -32,7 +32,8 @@ namespace LIS.Views
 
 				try
 				{
-					String userCommand = "SELECT BookID, Name, Author, Price, RackNo, Status, Edition, Category, IssuedTo, IsReserved" +
+					String userCommand = "SELECT BookID, Name, Author, Price, RackNo, Status, Edition, Category, " +
+						"IssuedTo, IsReserved, ReservedTo, date(ReserveDate) " +
 						" FROM books ORDER BY Category";
 
 					SqliteCommand cmd = new SqliteCommand(userCommand, db);
@@ -41,7 +42,7 @@ namespace LIS.Views
 
 					while (result.Read())
 					{
-						books.Add(new Book()
+						Book b = new Book()
 						{
 							BookId = result.GetString(0),
 							Name = result.GetString(1),
@@ -52,8 +53,13 @@ namespace LIS.Views
 							Edition = result.GetString(6),
 							Category = result.GetString(7),
 							IssuedTo = result.GetString(8),
-							IsReserved = result.GetString(9)
-						});
+							IsReserved = result.GetString(9),
+							ReservedTo = result.GetString(10),
+						};
+						if (b.IsReserved.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
+							b.ReserveDate = result.GetString(11);
+
+						books.Add(b);
 					}
 				}
 				catch(Exception e)

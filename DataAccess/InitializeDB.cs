@@ -38,12 +38,15 @@ namespace DataAccess
                     "Author TEXT," +
                     "Price INT," + 
                     "RackNo TEXT," +
-                    "Status TEXT," +
                     "Edition TEXT," +
                     "Category TEXT," +
+                    "Status TEXT," +
                     "IssuedTo TEXT," +
                     "IsReserved TEXT," +
-                    "IssueDate datetime )";
+                    "IssueDate datetime," +
+                    "ReservedTo TEXT, " +
+                    "IssueCount INT," +
+                    "ReserveDate datetime)";
 
                 SqliteCommand createbookTable = new SqliteCommand(booktableCommand, db);
 

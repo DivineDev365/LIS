@@ -11,14 +11,23 @@
 
 	<Grid>
 		<StackPanel>
-		<TextBox x:Name="SearchBox" PlaceholderText="Search book or author"
+			<TextBlock Text="Reserve Book" FontSize="32"/>
+			<StackPanel Orientation="Horizontal">
+				<TextBox x:Name="ReserveBox" PlaceholderText="Book ID to Reserve"
+						 Margin="10" MinWidth="200" MinHeight="30"
+						 BorderBrush="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}"/>
+				<Button Content="Reserve" Click="ReserveClicked"
+						Margin="10" MinHeight="30" MinWidth="100"/>
+			</StackPanel>
+			<TextBlock Text="Search Book" FontSize="32"/>
+			<TextBox x:Name="SearchBox" PlaceholderText="Search book or author"
 				  BorderBrush="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}" 
 				 MinWidth="300" MinHeight="30"
-				 Margin="10,10"/>
+				 Margin="10"/>
 		<Button x:Name="SearchButton" Content="Search" Click="SearchClicked"
 				HorizontalAlignment="Left" MinWidth="100" MinHeight="30"
-				Margin="10,10"/>
-		<tkcontrols:DataGrid x:Name="ResultsDataGrid" Margin="10,10"
+				Margin="10"/>
+		<tkcontrols:DataGrid x:Name="ResultsDataGrid" Margin="10"
 							 AlternatingRowBackground="Transparent"
 							 AlternatingRowForeground="{ThemeResource SystemAccentColorLight3}"
 							 CanUserResizeColumns="True"/>

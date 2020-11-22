@@ -26,7 +26,7 @@
 				<muxc:NavigationViewItem Icon="Home" Tag="Dashboard" Content="Dashboard"/>
 				<muxc:NavigationViewItemSeparator/>
 				<muxc:NavigationViewItemHeader Content="Search"/>
-				<muxc:NavigationViewItem Icon="Find" Tag="Search" Content="Search">
+				<muxc:NavigationViewItem Icon="Find" Tag="Search" Content="Search or Reserve">
 				</muxc:NavigationViewItem>
 				<muxc:NavigationViewItemSeparator/>
 				<muxc:NavigationViewItemHeader Content="Find Books"/>

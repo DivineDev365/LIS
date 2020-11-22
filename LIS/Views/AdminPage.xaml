@@ -76,7 +76,9 @@
 								Content="Return Book"
 								Click="ReturnBookClicked"/>
 					</StackPanel>
-					
+					<TextBlock Text="Note: Reserved Books can be issued in issue book section"
+							   VerticalAlignment="Bottom" TextWrapping="WrapWholeWords"
+							   Grid.ColumnSpan="2" HorizontalAlignment="Left"/>
 				</Grid>
 			</PivotItem>
 			<PivotItem Header="Update Book">

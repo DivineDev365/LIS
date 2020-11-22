@@ -36,6 +36,9 @@ namespace LIS.ViewModels
 					SqliteCommand cmd = new SqliteCommand(userCommand, db);
 
 					SqliteDataReader result = cmd.ExecuteReader();
+
+					if (result.RecordsAffected > 0)
+						await ShowDialogBox("User Added!");
 				}
 				catch (Exception e)
 				{
@@ -93,7 +96,10 @@ namespace LIS.ViewModels
 
 					SqliteCommand cmd = new SqliteCommand(userCommand, db);
 
-					int result = cmd.ExecuteNonQuery();
+					SqliteDataReader result = cmd.ExecuteReader();
+
+					if (result.RecordsAffected > 0)
+						await ShowDialogBox("User Deleted!");
 				}
 				catch (Exception e)
 				{
@@ -113,14 +119,18 @@ namespace LIS.ViewModels
 				db.Open();
 				try
 				{
-					String userCommand = "INSERT OR REPLACE INTO books (BookID, Name, Author, Price, RackNo, Status, Edition, Category, IssuedTo, IsReserved)" +
+					String userCommand = "INSERT OR REPLACE INTO books (BookID, Name, Author, Price, RackNo, Status," +
+						" Edition, Category, IssuedTo, IsReserved, ReservedTo, IssueCount)" +
 						" VALUES" +
 						$"('{book.BookId}', '{book.Name}', '{book.Author}', '{book.Price}', '{book.RackNo}', " +
-						$"'{book.Status}', '{book.Edition}', '{book.Category}', 'None', 'No')";
+						$"'{book.Status}', '{book.Edition}', '{book.Category}', 'None', 'No', 'None', 0)";
 
 					SqliteCommand cmd = new SqliteCommand(userCommand, db);
 
 					SqliteDataReader result = cmd.ExecuteReader();
+
+					if (result.RecordsAffected > 0)
+						await ShowDialogBox("Book added successfully");
 				
 				}
 				catch (Exception e)
@@ -146,8 +156,10 @@ namespace LIS.ViewModels
 
 				SqliteCommand cmd = new SqliteCommand(userCommand, db);
 
-				int result = cmd.ExecuteNonQuery();
+				SqliteDataReader result = cmd.ExecuteReader();
 
+				if (result.RecordsAffected > 0)
+					await ShowDialogBox("Successfully Deleted");
 				db.Close();
 			}
 		}
@@ -160,8 +172,9 @@ namespace LIS.ViewModels
 
 		public async void IssueBookCommand(string bookid, string memid)
 		{
-			int booksissueed = 0, maxbooklimit = 0;
+			int booksissueed = 0, maxbooklimit = 0, issueCount = 0;
 			string bookstatus = string.Empty, reservestatus = string.Empty;
+			string rackno = string.Empty, reservedto = string.Empty;
 			await ApplicationData.Current.LocalFolder.CreateFileAsync("University.db", CreationCollisionOption.OpenIfExists);
 			string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "University.db");
 			using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
@@ -183,7 +196,7 @@ namespace LIS.ViewModels
 					if(maxbooklimit - booksissueed >0)
 					{
 					
-							string BookStatusCommand = "Select Status, IsReserved, RackNo from books" +
+							string BookStatusCommand = "Select Status, IsReserved, IssueCount, RackNo, ReservedTo from books" +
 								$" WHERE BookID = '{bookid}'";
 							SqliteCommand bookcmd = new SqliteCommand(BookStatusCommand, db);
 							SqliteDataReader BookResult = bookcmd.ExecuteReader();
@@ -192,12 +205,17 @@ namespace LIS.ViewModels
 							{
 								bookstatus = BookResult.GetString(0);
 								reservestatus = BookResult.GetString(1);
-							}
-					
-						if(string.Equals(bookstatus, "Available") && string.Equals(reservestatus, "No"))
+								issueCount = int.Parse(BookResult.GetString(2));
+								rackno = BookResult.GetString(3);
+								if (string.Equals(reservestatus, "Yes", StringComparison.InvariantCultureIgnoreCase))
+									reservedto = BookResult.GetString(4);
+						}
+						//if book available and not reserved then issue
+						if(string.Equals(bookstatus, "Available", StringComparison.InvariantCultureIgnoreCase) 
+							&& string.Equals(reservestatus, "No", StringComparison.InvariantCultureIgnoreCase))
 						{
 							string issuebookquery = $"UPDATE books SET Status = 'Issued', IssuedTo = '{memid}'," +
-								$" IssueDate = datetime('now','localtime')" +
+								$" IssueDate = datetime('now','localtime'), IssueCount = {issueCount+1}" +
 								$" WHERE BookID = '{bookid}'";
 							SqliteCommand issuebookcmd = new SqliteCommand(issuebookquery, db);
 							SqliteDataReader IssueResult = issuebookcmd.ExecuteReader();
@@ -207,11 +225,35 @@ namespace LIS.ViewModels
 							SqliteCommand incuserbookcmd = new SqliteCommand(incuserbooknoquery, db);
 							SqliteDataReader IncMembookResult = incuserbookcmd.ExecuteReader();
 
-							if (IssueResult.HasRows && IncMembookResult.HasRows)
-								await ShowDialogBox( "Successfully Issued");
+							if (IssueResult.RecordsAffected > 0 && IncMembookResult.RecordsAffected > 0)
+								await ShowDialogBox( $"Successfully Issued\n Rack No: {rackno}");
 							else
-								await ShowDialogBox("Else of Successfully issued");
+								await ShowDialogBox("Unable to issue book.");
 						}
+
+						//if book available and reserved then issue to reserved member
+						else if (string.Equals(bookstatus, "Available", StringComparison.InvariantCultureIgnoreCase)
+							&& string.Equals(reservestatus, "Yes", StringComparison.InvariantCultureIgnoreCase)
+							&& reservedto.Equals(memid,StringComparison.InvariantCultureIgnoreCase))
+						{
+							string issuebookquery = $"UPDATE books SET Status = 'Issued', IssuedTo = '{memid}'," +
+								$" IssueDate = datetime('now','localtime'), IssueCount = {issueCount + 1}, " +
+								$"IsReserved = 'No', ReservedTo = 'None'" +
+								$" WHERE BookID = '{bookid}'";
+							SqliteCommand issuebookcmd = new SqliteCommand(issuebookquery, db);
+							SqliteDataReader IssueResult = issuebookcmd.ExecuteReader();
+
+							string incuserbooknoquery = $"UPDATE users SET BooksIssued = {booksissueed + 1} " +
+								$" WHERE ID = '{memid}'";
+							SqliteCommand incuserbookcmd = new SqliteCommand(incuserbooknoquery, db);
+							SqliteDataReader IncMembookResult = incuserbookcmd.ExecuteReader();
+
+							if (IssueResult.RecordsAffected > 0 && IncMembookResult.RecordsAffected > 0)
+								await ShowDialogBox($"Successfully Issued\n Rack No: {rackno}");
+							else
+								await ShowDialogBox("Unable to issue book.");
+						}
+
 						else
 						{
 							await ShowDialogBox("Sorry, the Book is Issued or Reserved.");
@@ -327,7 +369,7 @@ namespace LIS.ViewModels
 						SqliteCommand decuserbookcmd = new SqliteCommand(decuserbooknoquery, db);
 						SqliteDataReader DecMembookResult = decuserbookcmd.ExecuteReader();
 
-						if (ReturnResult.Read() && DecMembookResult.Read())
+						if (ReturnResult.RecordsAffected>0 && DecMembookResult.RecordsAffected>0)
 						{
 							await ShowDialogBox("Book Returned");							
 						}

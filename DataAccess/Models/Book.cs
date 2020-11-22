@@ -21,14 +21,19 @@ namespace DataAccess.Models
 
 		public string RackNo { get; set; }
 		
-		public string Status { get; set; }
 		public string Edition { get; set; }
-		
 		public string Category { get; set; }
 
+		public string Status { get; set; }
 		public string IssuedTo { get; set; }
 		public string IsReserved { get; set; }
+		public string ReservedTo { get; set; }
+
 		public string IssueDate { get; set; }
+		public string ReserveDate { get; set; }
+
+		public string IssueCount { get; set; }
+		
 
 		public void DisplayBookDetails() { }
 		public void UpdateStatus() { }
