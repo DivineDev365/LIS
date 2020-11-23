@@ -122,7 +122,6 @@
 						<ComboBox x:Name="StatusComboBox" Width="300"
 								  PlaceholderText="Select Status">
 							<x:String>Available</x:String>
-							<x:String>Issued</x:String>
 						</ComboBox>
 						<TextBox x:Name="EditionBox"/>
 						<ComboBox x:Name="CategoryComboBox" Width="300"

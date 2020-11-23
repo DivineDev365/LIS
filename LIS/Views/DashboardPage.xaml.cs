@@ -32,16 +32,24 @@ namespace LIS.Views
 		{
 			this.InitializeComponent();
 			//DashboardPageViewModel viewModel = new DashboardPageViewModel();
+
+			//this.GetNotifications();
+
 			this.GetUserDetails();
 			//DataContext = viewModel;
 			UserListView.ItemsSource = this.user;
 			UserBooksGrid.ItemsSource = this.userBooks;
+			NotificationListView.ItemsSource = this.notifications;
 		}
 
+		private List<double> notify = new List<double>(10);
 		private ObservableCollection<Members> user = new ObservableCollection<Members>();
 		private ObservableCollection<Book> userBooks = new ObservableCollection<Book>();
+		private ObservableCollection<string> notifications = new ObservableCollection<string>();
+
 		public async void GetUserDetails()
 		{
+			
 			if (string.Equals(Members.CurrentUser, "Admin"))
 			{
 				user.Add(new Members()
@@ -58,6 +66,8 @@ namespace LIS.Views
 
 			try
 			{
+				int issueperiod = 0;
+
 				await ApplicationData.Current.LocalFolder.CreateFileAsync("University.db", CreationCollisionOption.OpenIfExists);
 				string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "University.db");
 				using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
@@ -78,9 +88,11 @@ namespace LIS.Views
 							MaxBookLimit = int.Parse(userResult.GetString(4)),
 							IssueMonthDuration = int.Parse(userResult.GetString(5))
 						});
+						issueperiod = userResult.GetInt32(5);
 					}
 
-					String bookCommand = "SELECT BookID, Name, Author, Price, RackNo, Status, Edition, Category, IsReserved, IssueDate" +
+					String bookCommand = "SELECT BookID, Name, Author, Price, RackNo, Status, Edition, Category, IsReserved, IssueDate, " +
+						"(julianday() - julianday(IssueDate, 'utc'))" +
 						$" FROM books WHERE IssuedTo = '{Members.CurrentUser}'";
 
 					SqliteCommand bookcmd = new SqliteCommand(bookCommand, db);
@@ -102,13 +114,47 @@ namespace LIS.Views
 							IsReserved = result.GetString(8),
 							IssueDate = result.GetString(9),
 						});
+						notify.Add(result.GetDouble(10));
 					}
 					db.Close();
 				}
+				GetNotifications(issueperiod);
 			}
 			catch (Exception e)
 			{
 				await ShowDialogBox(e.Message);
+			}
+		}
+
+		private void GetNotifications(int issueperiod)
+		{
+			string notifyText = string.Empty;
+			int count = 0;
+
+			for(int i=0; i< notify.Count; i++)
+			{
+				//var cond = 2; // for else if condition (only for testing)
+				//var cond = notify[i] - issueperiod * 30; //for issued books (only for testing)
+				var cond = issueperiod * 30 - notify[i]; //for overdue book
+				if (cond < 0)
+				{
+					count++;
+					notifyText = "overdue!";
+				}
+				else if(0< cond && cond < 3)
+				{
+					count++;
+					notifyText = "to return within 3 days";
+				}
+			}
+			if(count > 0)
+			{
+				NotificationIcon.Visibility = Visibility.Visible;
+				notifications.Add($"You have {notify.Count} books {notifyText}");
+			}
+			else
+			{
+				notifications.Add("You have no notifications. Enjoy!");
 			}
 		}
 

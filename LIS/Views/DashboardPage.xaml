@@ -43,59 +43,74 @@
 		</Style>
 	</Page.Resources>
 
-	<Pivot>
-		<PivotItem Header="Your Info">
-			<Grid>
-				<StackPanel>
-					<StackPanel Margin="0,5" BorderThickness="2" 
-								BorderBrush="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" MinWidth="10"/>
-								<ColumnDefinition Width="Auto"/>
-							</Grid.ColumnDefinitions>
-							<StackPanel Grid.Column="0">
-								<TextBlock Text="ID:"/>
-								<TextBlock Text="Name:"/>
-								<TextBlock Text="Books Issued:"/>
-								<TextBlock Text="Book Limit:"/>
-								<TextBlock Text="Issue Duration (months):" TextWrapping="Wrap"/>
-							</StackPanel>
-							<StackPanel Grid.Column="1">
-								<ListView x:Name="UserListView" SelectionMode="Single">
-									<ListView.ItemTemplate>
-										<DataTemplate x:Name="UserDataTemplate" x:DataType="models:Members">
-											<StackPanel>
-												<TextBlock Text="{Binding MemberId}" MinHeight="40"/>
-												<TextBlock Text="{Binding Name}" MinHeight="40"/>
-												<TextBlock Text="{Binding BooksIssued}" MinHeight="40"/>
-												<TextBlock Text="{Binding MaxBookLimit}" MinHeight="40"/>
-												<TextBlock Text="{Binding IssueMonthDuration}" MinHeight="40"/>
-											</StackPanel>
-										</DataTemplate>
-									</ListView.ItemTemplate>
-								</ListView>
-							</StackPanel>
-						</Grid>
+
+
+	<Grid>
+		<StackPanel>
+			<StackPanel Margin="0,5" BorderThickness="2" 
+							BorderBrush="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" MinWidth="10"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<TextBlock Text="Your Info" Grid.Row="0" FontSize="32"
+							   HorizontalAlignment="Left"/>
+					<StackPanel Grid.Column="0" Grid.Row="1">
+						
+						<TextBlock Text="ID:"/>
+						<TextBlock Text="Name:"/>
+						<TextBlock Text="Books Issued:"/>
+						<TextBlock Text="Book Limit:"/>
+						<TextBlock Text="Issue Duration (months):" TextWrapping="Wrap"/>
 					</StackPanel>
-					<StackPanel Margin="0,5" BorderThickness="2" 
-								BorderBrush="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
-						<TextBlock Text="Books issued to you:"/>
-						<tkcontrols:DataGrid x:Name="UserBooksGrid"
-											 ItemsSource="{Binding}"
-											 AlternatingRowBackground="Transparent"
-							 AlternatingRowForeground="{ThemeResource SystemAccentColorLight3}"
-							 CanUserResizeColumns="True"/>
+					<StackPanel Grid.Column="1" Grid.Row="1">
+						<ListView x:Name="UserListView" SelectionMode="Single" Margin="10,0">
+							<ListView.ItemTemplate>
+								<DataTemplate x:Name="UserDataTemplate" x:DataType="models:Members">
+									<StackPanel>
+										<TextBlock Text="{Binding MemberId}" MinHeight="40"/>
+										<TextBlock Text="{Binding Name}" MinHeight="40"/>
+										<TextBlock Text="{Binding BooksIssued}" MinHeight="40"/>
+										<TextBlock Text="{Binding MaxBookLimit}" MinHeight="40"/>
+										<TextBlock Text="{Binding IssueMonthDuration}" MinHeight="40"/>
+									</StackPanel>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
 					</StackPanel>
+				</Grid>
+			</StackPanel>
+
+			<StackPanel Margin="0,5" BorderThickness="2" 
+							BorderBrush="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Notifications" HorizontalAlignment="Left"
+							   FontSize="32" />
+					<SymbolIcon x:Name="NotificationIcon" Visibility="Collapsed"
+						Symbol="Important" Foreground="red" ToolTipService.ToolTip="Please take necessary actions"
+								ToolTipService.Placement="Mouse"/>
 				</StackPanel>
-			</Grid>
-		</PivotItem>
-		<PivotItem Header="Notifications">
-			<Grid>
-				<StackPanel>
-					<TextBlock Text="Your Notifications will appear here"/>
-				</StackPanel>
-			</Grid>
-		</PivotItem>
-	</Pivot>
+				<ListView x:Name="NotificationListView" SelectionMode="Single"
+						  Margin="20">
+					
+				</ListView>
+			</StackPanel>
+			<StackPanel Margin="0,5" BorderThickness="2" 
+							BorderBrush="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
+				<TextBlock Text="Books issued to you" FontSize="32"
+						   HorizontalAlignment="Left"/>
+				<tkcontrols:DataGrid x:Name="UserBooksGrid" 
+											ItemsSource="{Binding}"
+											AlternatingRowBackground="Transparent"
+							AlternatingRowForeground="{ThemeResource SystemAccentColorLight3}"
+							CanUserResizeColumns="True"/>
+			</StackPanel>
+		</StackPanel>
+	</Grid>
+
 </Page>

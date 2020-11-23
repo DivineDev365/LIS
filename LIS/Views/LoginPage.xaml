@@ -55,6 +55,8 @@
 					   Style="{ThemeResource BaseTextBlockStyle}"
 					   Foreground="{ThemeResource SystemBaseHighColor}"/>
 			<Button Content="Sign Up" Click="SignUpClicked" 
+					ToolTipService.ToolTip="Please contact Library Admin for now"
+					ToolTipService.Placement="Mouse" 
 					Margin="0,10,0,50"/>
 		</StackPanel>
 		
