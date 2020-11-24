@@ -29,7 +29,16 @@
 					<Hyperlink NavigateUri="https://twitter.com/shashwat422">Twitter</Hyperlink>
 				</Paragraph>
 			</RichTextBlock>
-			
+
+			<TextBlock Style="{StaticResource TitleTextBlockStyle}"
+				Text="Found a bug? Want a new feature?" FontWeight="Normal" Margin="0,20,0,0"/>
+			<RichTextBlock>
+				<Paragraph>
+					Please open an issue at
+					<Hyperlink NavigateUri="https://github.com/Shashwat422/LIS/issues">GitHub Repository</Hyperlink>
+				</Paragraph>
+			</RichTextBlock>
+
 			<TextBlock Style="{StaticResource TitleTextBlockStyle}"
 				Text="About" FontWeight="Normal" Margin="0,20,0,0"/>
 			<RichTextBlock IsTextSelectionEnabled="True">
@@ -42,6 +51,7 @@
 					<Run FontStyle="Italic">git clone https://github.com/Shashwat422/LIS.git</Run>
 				</Paragraph>
 			</RichTextBlock>
+			
 			<TextBlock Style="{StaticResource TitleTextBlockStyle}"
 					Margin="0,20,0,0" FontWeight="Normal"
                     Text="Dependencies and References" />
@@ -54,10 +64,15 @@
 						Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Hyperlink>
 				</Paragraph>
 				<Paragraph Margin="0,10" HorizontalTextAlignment="Left">
+					<Hyperlink NavigateUri="https://www.nuget.org/packages/Microsoft.Data.Sqlite/1.1.1?_src=template">
+						Microsoft.Data.Sqlite</Hyperlink>
+				</Paragraph>
+				<Paragraph Margin="0,10" HorizontalTextAlignment="Left">
 					<Hyperlink NavigateUri="https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/navigationview">
 						Navigation View Source Code</Hyperlink>
 				</Paragraph>
 			</RichTextBlock>
+			
 			<TextBlock
                     Style="{StaticResource TitleTextBlockStyle}"
                     Margin="0,20,0,0" FontWeight="Normal"
