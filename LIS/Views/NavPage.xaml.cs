@@ -57,7 +57,15 @@ namespace LIS.Views
                     Icon = new SymbolIcon((Symbol)0xE7EF),
                     Tag = "admin"
                 });
+                NavView.MenuItems.Add(new muxc.NavigationViewItem
+                {
+                    Content = "SQL Console",
+                    Icon = new SymbolIcon((Symbol)0xE7EF),
+                    Tag = "console"
+                });
+
                 _pages.Add(("admin", typeof(AdminPage)));
+                _pages.Add(("console", typeof(AdminConsolePage)));
             }
 
             // Add handler for ContentFrame navigation.
