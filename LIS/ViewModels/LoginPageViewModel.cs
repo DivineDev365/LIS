@@ -26,13 +26,13 @@ namespace LIS.ViewModels
 				//await LoginCommand("Admin", pwd, "librarian");
 				uid = "Admin";
 				tablename = "librarian";
-				Members.CurrentUser = "Admin";
+				//Members.CurrentUser = "Admin";
 			}
 			else
 			{
 				//await LoginCommand(uid, pwd, "users");
 				tablename = "users";
-				Members.CurrentUser = uid;
+				//Members.CurrentUser = uid;
 			}
 
 			try
@@ -52,7 +52,10 @@ namespace LIS.ViewModels
 					while (result.Read())
 					{
 						if (result.GetString(0).Equals("1"))
+						{
 							UserExists = true;
+							Members.CurrentUser = uid;
+						}
 						else
 							UserExists = false;
 						
