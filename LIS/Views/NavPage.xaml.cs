@@ -40,6 +40,7 @@ namespace LIS.Views
             ("Dashboard", typeof(DashboardPage)),
             ("Search", typeof(SearchPage)),
             ("BookList", typeof(BookListPage)),
+            ("UserCorner", typeof(UserCornerPage)),
             //("Admin", typeof(AdminPage))
         };
 

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +27,32 @@ namespace LIS.Views
 		public SettingsPage()
 		{
 			this.InitializeComponent();
+			Loaded += OnSettingsPageLoaded;
+		}
+
+		private void OnSettingsPageLoaded(object sender, RoutedEventArgs e)
+		{
+			var currentTheme = (string)ApplicationData.Current.LocalSettings.Values["themeSettings"];
+			(ThemePanel.Children.Cast<RadioButton>().FirstOrDefault(c => c?.Tag?.ToString() == currentTheme)).IsChecked = true;
+		}
+
+		private void ThemeRadioButtonChecked(object sender, RoutedEventArgs e)
+		{
+			var selectedTheme = ((RadioButton)sender)?.Tag?.ToString();
+
+			ApplicationData.Current.LocalSettings.Values["themeSettings"] = selectedTheme;
+
+			ShowDialog();
+		}
+
+		private async void ShowDialog()
+		{
+			ContentDialog dialog = new ContentDialog()
+			{
+				Content = "Theme options will take effect only after restarting the app.",
+				PrimaryButtonText = "Got It!"
+			};
+			await dialog.ShowAsync();
 		}
 	}
 }

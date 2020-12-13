@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DataAccess;
+using Windows.Storage;
 
 namespace LIS
 {
@@ -32,18 +33,42 @@ namespace LIS
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            GetAppTheme();
 			InitializeDB.InitializeDatabase();
         }
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used such as when the application is launched to open a specific file.
-        /// </summary>
-        /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+		private void GetAppTheme()
+		{
+            string theme = string.Empty;
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey("themeSettings"))
+            {
+                theme = (string)ApplicationData.Current.LocalSettings.Values["themeSettings"];
+
+            }
+            if (theme.Equals("Default"))
+            { }
+            else
+            {
+                if (!string.IsNullOrEmpty(theme))
+                {
+                    if (theme.Equals("Light"))
+                        this.RequestedTheme = (ApplicationTheme)0;
+                    else
+                        this.RequestedTheme = (ApplicationTheme)1;
+                }
+            }
+        }
+
+		/// <summary>
+		/// Invoked when the application is launched normally by the end user.  Other entry points
+		/// will be used such as when the application is launched to open a specific file.
+		/// </summary>
+		/// <param name="e">Details about the launch request and process.</param>
+		protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,

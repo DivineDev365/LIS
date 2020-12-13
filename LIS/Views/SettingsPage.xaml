@@ -11,7 +11,11 @@
 	<Grid>
 		<StackPanel Margin="10,10">
 			<TextBlock Text="Choose a color mode" Style="{StaticResource TitleTextBlockStyle}"/>
-			<TextBlock Text="Change Windows color settings to change app color scheme"/>
+			<StackPanel x:Name="ThemePanel">
+				<RadioButton Tag="Light" Checked="ThemeRadioButtonChecked" Content="Light"/>
+				<RadioButton Tag="Dark" Checked="ThemeRadioButtonChecked" Content="Dark"/>
+				<RadioButton Tag="Default" Checked="ThemeRadioButtonChecked" Content="Use System Settings"/>
+			</StackPanel>
 			<HyperlinkButton NavigateUri="ms-settings:colors">Windows color settings</HyperlinkButton>
 				
 			<TextBlock Text="Developer Contact" Style="{StaticResource TitleTextBlockStyle}"

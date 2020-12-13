@@ -32,6 +32,13 @@
 				<muxc:NavigationViewItemHeader Content="Find Books"/>
 				<muxc:NavigationViewItem Icon="AllApps" Tag="BookList" Content="Books By Topic">
 				</muxc:NavigationViewItem>
+				<muxc:NavigationViewItemSeparator/>
+				<muxc:NavigationViewItemHeader Content="Resources"/>
+				<muxc:NavigationViewItem  Tag="UserCorner" Content="Users Corner">
+					<muxc:NavigationViewItem.Icon>
+						<FontIcon  FontFamily="Segoe MDL2 Assets" Glyph="&#xE716;"/>
+					</muxc:NavigationViewItem.Icon>
+				</muxc:NavigationViewItem>
 				<!--<muxc:NavigationViewItem Icon="Admin" Tag="Admin" Content="Admin"/>-->
 			</muxc:NavigationView.MenuItems>
 
