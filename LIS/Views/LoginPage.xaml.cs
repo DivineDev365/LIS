@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using LIS.ViewModels;
 using DataAccess.Models;
+using Windows.Storage;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -66,7 +67,11 @@ namespace LIS.Views
 				await ViewModel.VerifyUserAsync(UserIDBox.Text, PwdBox.Password);
 				if (ViewModel.UserExists)
 				{
-					//Members.CurrentUser = UserIDBox.Text;
+					//add user login info to local app data
+					ApplicationData.Current.LocalSettings.Values["UserLoggedIn"] = true;
+					ApplicationData.Current.LocalSettings.Values["LoggedInUserId"] = Members.CurrentUser;
+
+
 					Frame.Navigate(typeof(Views.NavPage));
 				}
 				else

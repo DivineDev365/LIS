@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DataAccess;
 using Windows.Storage;
+using DataAccess.Models;
 
 namespace LIS
 {
@@ -34,6 +35,7 @@ namespace LIS
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             GetAppTheme();
+            CheckUserLogin();
 			InitializeDB.InitializeDatabase();
         }
 
@@ -59,12 +61,17 @@ namespace LIS
             }
         }
 
-		/// <summary>
-		/// Invoked when the application is launched normally by the end user.  Other entry points
-		/// will be used such as when the application is launched to open a specific file.
-		/// </summary>
-		/// <param name="e">Details about the launch request and process.</param>
-		protected override void OnLaunched(LaunchActivatedEventArgs e)
+        private void CheckUserLogin()
+        {
+            
+        }
+
+        /// <summary>
+        /// Invoked when the application is launched normally by the end user.  Other entry points
+        /// will be used such as when the application is launched to open a specific file.
+        /// </summary>
+        /// <param name="e">Details about the launch request and process.</param>
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
@@ -96,7 +103,19 @@ namespace LIS
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(Views.LoginPage), e.Arguments);
+                    if (ApplicationData.Current.LocalSettings.Values.ContainsKey("UserLoggedIn") &&
+                                (bool)ApplicationData.Current.LocalSettings.Values["UserLoggedIn"])
+                    {
+                        if (ApplicationData.Current.LocalSettings.Values.ContainsKey("LoggedInUserId"))
+                        {
+                            Members.CurrentUser = (string)ApplicationData.Current.LocalSettings.Values["LoggedInUserId"];
+                            rootFrame.Navigate(typeof(Views.NavPage), e.Arguments);
+                        }
+                        else
+                            rootFrame.Navigate(typeof(Views.LoginPage), e.Arguments);
+                    }
+                    else
+                        rootFrame.Navigate(typeof(Views.LoginPage), e.Arguments);
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
