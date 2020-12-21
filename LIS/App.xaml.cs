@@ -34,9 +34,18 @@ namespace LIS
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
             GetAppTheme();
-            CheckUserLogin();
 			InitializeDB.InitializeDatabase();
+            CresteUserFolderIfNotExists();
+        }
+
+		private async void CresteUserFolderIfNotExists()
+		{
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+
+            string folderName = "UserDataStore";
+            StorageFolder UserCorner = await localFolder.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
         }
 
 		private void GetAppTheme()
@@ -61,10 +70,6 @@ namespace LIS
             }
         }
 
-        private void CheckUserLogin()
-        {
-            
-        }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

@@ -11,10 +11,65 @@
 	<Grid>
 		<Pivot>
 			<PivotItem Header="Magazines">
-				
+				<StackPanel Margin="0,10,0,0">
+					<Button Click="AddMagClicked">
+						<StackPanel Orientation="Horizontal">
+							<SymbolIcon Symbol="Add"/>
+							<TextBlock Text="  Upload Magazine"/>
+						</StackPanel>
+					</Button>
+				</StackPanel>
 			</PivotItem>
-			<PivotItem Header="Students' corner">
-				
+			<PivotItem Header="Students' Corner"
+					   ScrollViewer.VerticalScrollMode="Disabled" 
+					   ScrollViewer.HorizontalScrollMode="Disabled">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="100"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="3*"/>
+					</Grid.ColumnDefinitions>
+					<StackPanel Margin="0,0,0,0" Grid.Row="0" Grid.ColumnSpan="2">
+						<TextBlock Text="Question Papers" FontSize="{StaticResource PivotHeaderItemFontSize}"/>
+						<Button Click="AddQuesClicked" Margin="0,10" Height="40">
+							<StackPanel Orientation="Horizontal">
+								<SymbolIcon Symbol="Add"/>
+								<TextBlock Text="  Upload Question Paper"/>
+							</StackPanel>
+						</Button>
+					</StackPanel>
+					<StackPanel Grid.Row="1" Grid.Column="0">
+						<TextBlock Text="Files:" FontSize="{StaticResource PivotHeaderItemFontSize}"/>
+						<ListView x:Name="FilesList" ItemsSource="{Binding}"
+								  IsItemClickEnabled="True"
+								  ItemClick="FileClicked"
+								  SelectionMode="Single"
+								  Margin="0,0,5,0"
+								  ScrollViewer.HorizontalScrollBarVisibility ="Visible"
+								  ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+						</ListView>
+					</StackPanel>
+					<StackPanel Grid.Row="1" Grid.Column="1">
+						<ScrollViewer ZoomMode="Enabled" Background="DarkGray"
+									  VerticalScrollMode="Enabled"
+									  VerticalScrollBarVisibility="Auto"
+									  HorizontalScrollMode="Enabled"
+									  HorizontalScrollBarVisibility="Visible"
+									  Height="600">
+							<ItemsControl x:Name="PdfItemsControl" ItemsSource="{Binding}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Image Source="{Binding}" Margin="0 2" />
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</ScrollViewer>
+					</StackPanel>
+				</Grid>
 			</PivotItem>
 		</Pivot>
 	</Grid>
